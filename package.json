@@ -1,0 +1,16 @@
+{
+  "name": "node-upload-progress",
+  "version": "0.0.1",
+  "description": "It's a Node.js module to handle upload and upload-progress",
+  "keywords": ["upload", "progress"],
+  "repository": "git://github.com/phstc/node-upload-progress.git",
+  "author": "Pablo Cantero <pablo@pablocantero.com>",
+  "dependencies": {},
+  "devDependencies": {
+		  "mocha": "1.0.1"
+    , "should": "0.6.0"
+	},
+  "main": "./index.js",
+  "scripts": {},
+  "engines": {"node": ">= 0.6.0"}
+}
