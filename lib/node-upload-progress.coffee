@@ -29,21 +29,20 @@ class UploadHandler
 		query = url.parse(req.url, true).query
 		form = new formidable.IncomingForm()
 		@uploads.add query['X-Progress-ID']
-		uploads = @uploads
-		form.parse req, (err, fields, files) ->
-			uploads.remove query['X-Progress-ID']
+
+		form.parse req, (err, fields, files) =>
+			@uploads.remove query['X-Progress-ID']
 			res.writeHead 200, 'Content-type': 'text/plain'
 			res.end 'upload received'
 		
-		uploadDir = @uploadDir
-		form.on 'file', (field, file) ->
-			upload = uploads.get(query['X-Progress-ID'])
+		form.on 'file', (field, file) =>
+			upload = @uploads.get(query['X-Progress-ID'])
 			upload.fileName = file.name
-			if uploadDir
-				fs.rename file.path, "#{uploadDir}/#{file.name}"
+			if @uploadDir
+				fs.rename file.path, "#{@uploadDir}/#{file.name}"
 		
-		form.addListener 'progress' , (bytesReceived, bytesExpected) ->
-			uploads.get(query['X-Progress-ID']).updateProgress bytesReceived, bytesExpected
+		form.addListener 'progress' , (bytesReceived, bytesExpected) =>
+			@uploads.get(query['X-Progress-ID']).updateProgress bytesReceived, bytesExpected
 
 	progress: (req, res) ->
 		query = url.parse(req.url, true).query
