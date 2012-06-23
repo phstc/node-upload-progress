@@ -16,33 +16,39 @@ formidable = require 'formidable'
 # new Object({ 'state' : 'uploading', 'received' : <size_received>, 'size' : <total_size>})    }
 
 class Upload
-    isDone: ->
-        @bytesReceived == @bytesExpected
+	constructor: (@bytesReceived=0, @bytesExpected=0) ->
 
-    isUploading: ->
-        @bytesReceived < @bytesExpected
+	isDone: ->
+		@bytesReceived == @bytesExpected
 
-    toJSON: ->
-        JSON.stringify
-            bytesReceived: @bytesReceived
-            bytesExpected: @bytesExpected
+	isUploading: ->
+		@bytesReceived < @bytesExpected
 
-    updateProgress: (bytesReceived, bytesExpected) ->
-        @bytesReceived = bytesReceived
-        @bytesExpected = bytesExpected
+	toJSON: ->
+		JSON.stringify
+			bytesReceived: @bytesReceived
+			bytesExpected: @bytesExpected
+			percent: @percent()
+
+	percent: ->
+		parseInt (@bytesReceived * 100) / @bytesExpected, 10
+
+	updateProgress: (bytesReceived, bytesExpected) ->
+		@bytesReceived = bytesReceived
+		@bytesExpected = bytesExpected
 
 class Uploads
-    constructor: ->
-        @uploads = []
+	constructor: ->
+		@uploads = []
 
-    add: (uuid, upload=(new Upload)) ->
-        @uploads[uuid] = upload
+	add: (uuid, upload=(new Upload)) ->
+		@uploads[uuid] = upload
 
-    get: (uuid) ->
-        @uploads[uuid]
+	get: (uuid) ->
+		@uploads[uuid]
 
-    remove: (uuid) ->
-        delete @uploads[uuid]
+	remove: (uuid) ->
+		delete @uploads[uuid]
 
 class UploadHandler
 	constructor: ->

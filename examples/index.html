@@ -13,10 +13,9 @@
 						if(data.bytesReceived === data.bytesExpected){
 							clearInterval(intervalID);
 						}
-						var percentage = parseInt((data.bytesReceived * 100) / data.bytesExpected, 10);
-						$('#upload_progress').text(percentage);
+						$('#upload_progress').text(data.percent);
 					});
-				}, 500);
+				}, 100);
 				return true;
 			});
 			
