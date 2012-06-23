@@ -36,8 +36,9 @@ class UploadHandler
 	upload: (req, res) ->
 		query = url.parse(req.url, true).query
 		form = new formidable.IncomingForm()
+		
 		@uploads.add query['X-Progress-ID']
-
+		
 		form.parse req, (err, fields, files) =>
 			@uploads.remove query['X-Progress-ID']
 			res.writeHead 200, 'Content-type': 'text/plain'

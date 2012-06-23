@@ -17,6 +17,11 @@ describe 'Uploads', ->
 		it 'should add and get a new upload', ->
 			$.uploads.add 1, $.upload
 			$.uploads.get(1).should.equal $.upload
+			
+		it 'should add undefined', ->
+			# undefined uuid occurs when X-Progress-ID is not passed in the querystring
+			upload = $.uploads.add
+			should.exist upload
 
 	describe 'get', ->
 		it 'should return nil if the upload does not exist', ->

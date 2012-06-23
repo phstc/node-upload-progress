@@ -1,6 +1,6 @@
 app = require 'http'
 fs = require 'fs'
-uploadProgress = require '../lib/node-upload-progress'
+uploadProgress = require '../../lib/node-upload-progress'
 uploadHandler = new uploadProgress.UploadHandler
 
 uploadHandler.configure ->
