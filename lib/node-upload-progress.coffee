@@ -24,6 +24,14 @@ class UploadHandler
 		
 	configure: (func) ->
 		func.call @
+		
+	formOnFile: (upload, field, file) ->
+		upload.fileName = file.name
+		if @uploadDir
+			fs.rename file.path, "#{@uploadDir}/#{file.name}"
+			
+	formOnProgress: (upload, bytesReceived, bytesExpected) ->
+		upload.updateProgress bytesReceived, bytesExpected
 
 	upload: (req, res) ->
 		query = url.parse(req.url, true).query
@@ -36,13 +44,10 @@ class UploadHandler
 			res.end 'upload received'
 		
 		form.on 'file', (field, file) =>
-			upload = @uploads.get(query['X-Progress-ID'])
-			upload.fileName = file.name
-			if @uploadDir
-				fs.rename file.path, "#{@uploadDir}/#{file.name}"
+			@formOnFile @uploads.get(query['X-Progress-ID']), field, file
 		
 		form.addListener 'progress' , (bytesReceived, bytesExpected) =>
-			@uploads.get(query['X-Progress-ID']).updateProgress bytesReceived, bytesExpected
+			@formOnProgress @uploads.get(query['X-Progress-ID']), bytesReceived, bytesExpected
 
 	progress: (req, res) ->
 		query = url.parse(req.url, true).query
