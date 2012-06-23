@@ -37,7 +37,6 @@ class UploadHandler
 		
 		uploadDir = @uploadDir
 		form.on 'file', (field, file) ->
-			console.log uploadDir
 			if uploadDir
 				fs.rename file.path, "#{uploadDir}/#{file.name}"
 		
