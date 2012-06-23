@@ -12,6 +12,11 @@ class Upload
 			bytesReceived: @bytesReceived
 			bytesExpected: @bytesExpected
 			percent: @percent()
+			status: @status()
+
+	status: ->
+		return 'done' if @isDone()
+		return 'uploading' if @isUploading()
 
 	percent: ->
 		return 0 if @bytesExpected == 0

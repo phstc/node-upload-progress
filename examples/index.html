@@ -13,7 +13,8 @@
 						if(data.bytesReceived === data.bytesExpected && data.bytesExpected > 0){
 							clearInterval(intervalID);
 						}
-						$('#upload_progress').text(data.percent);
+						$('#upload_percent').text(data.percent);
+						$('#upload_status').text(data.status);
 					}).error(function(){clearInterval(intervalID);});
 				}, 250);
 				return true;
@@ -27,7 +28,8 @@
 		<p>
 			<label>File</label><br/>
 			<input type="file" name="upload" id="upload"><br>
-			<span id="upload_progress"></span>
+			<span id="upload_percent"></span><br/>
+			<span id="upload_status"></span>
 		</p>
 		<p>
 			<input type="submit" value="Upload">
