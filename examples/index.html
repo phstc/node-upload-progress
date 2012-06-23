@@ -14,7 +14,7 @@
 							clearInterval(intervalID);
 						}
 						$('#upload_progress').text(data.percent);
-					});
+					}).error(function(){clearInterval(intervalID);});
 				}, 1000);
 				return true;
 			});
