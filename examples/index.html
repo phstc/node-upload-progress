@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Test Upload</title>
+	<meta name="author" content="Pablo Cantero <pablo@pablocantero.com>">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!-- Date: 2012-06-12 -->
+	<script>
+		$(function(){
+			$('#form_upload').submit(function(){
+				var intervalID = setInterval(function(){
+					$.get('/progress?X-Progress-ID=1', function(data){
+						if(data.bytesReceived === data.bytesExpected){
+							clearInterval(intervalID);
+						}
+						var percentage = parseInt((data.bytesReceived * 100) / data.bytesExpected, 10);
+						$('#upload_progress').text(percentage);
+					});
+				}, 500);
+				return true;
+			});
+			
+		});
+	</script>
+</head>
+<body>
+	<h1>Super Upload</h1>
+	<form action="/upload?X-Progress-ID=1" enctype="multipart/form-data" method="post" id="form_upload" target="iframe_upload">
+		<p>
+			<label>File</label><br/>
+			<input type="file" name="upload" id="upload"><br>
+			<span id="upload_progress"></span>
+		</p>
+		<p>
+			<input type="submit" value="Upload">
+		</p>
+	</form>
+	<iframe id="iframe_upload" name="iframe_upload"></iframe>
+</body>
+</html>
