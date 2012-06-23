@@ -11,6 +11,7 @@
   "devDependencies": {
 		  "mocha": "1.0.1"
     , "should": "0.6.0"
+    , "coffee-script": "1.2.0"
 	},
   "main": "./index.js",
   "scripts": {},
