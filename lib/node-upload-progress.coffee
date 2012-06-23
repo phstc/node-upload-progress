@@ -1,5 +1,7 @@
 url = require 'url'
 formidable = require 'formidable'
+Uploads = require './uploads'
+Upload = require './upload'
 
 # http://wiki.nginx.org/HttpUploadProgressModule#report_uploads
 #
@@ -14,41 +16,6 @@ formidable = require 'formidable'
 #
 # the upload request is in progress:
 # new Object({ 'state' : 'uploading', 'received' : <size_received>, 'size' : <total_size>})    }
-
-class Upload
-	constructor: (@bytesReceived=0, @bytesExpected=0) ->
-
-	isDone: ->
-		@bytesReceived == @bytesExpected
-
-	isUploading: ->
-		@bytesReceived < @bytesExpected
-
-	toJSON: ->
-		JSON.stringify
-			bytesReceived: @bytesReceived
-			bytesExpected: @bytesExpected
-			percent: @percent()
-
-	percent: ->
-		parseInt (@bytesReceived * 100) / @bytesExpected, 10
-
-	updateProgress: (bytesReceived, bytesExpected) ->
-		@bytesReceived = bytesReceived
-		@bytesExpected = bytesExpected
-
-class Uploads
-	constructor: ->
-		@uploads = []
-
-	add: (uuid, upload=(new Upload)) ->
-		@uploads[uuid] = upload
-
-	get: (uuid) ->
-		@uploads[uuid]
-
-	remove: (uuid) ->
-		delete @uploads[uuid]
 
 class UploadHandler
 	constructor: ->
