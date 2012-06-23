@@ -14,6 +14,7 @@ class Upload
 			percent: @percent()
 
 	percent: ->
+		return 0 if @bytesExpected == 0
 		parseInt (@bytesReceived * 100) / @bytesExpected, 10
 
 	updateProgress: (bytesReceived, bytesExpected) ->

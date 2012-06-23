@@ -23,3 +23,6 @@ describe 'Upload', ->
 		it 'should return 50%', ->
 			$.upload.updateProgress 5, 10
 			$.upload.percent().should.equal 50
+		it 'should return 0 if bytesExpected is 0', ->
+			$.upload.updateProgress 0, 0
+			$.upload.percent().should.equal 0
