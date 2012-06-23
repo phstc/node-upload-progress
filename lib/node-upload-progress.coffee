@@ -2,6 +2,7 @@ url = require 'url'
 formidable = require 'formidable'
 Uploads = require './uploads'
 Upload = require './upload'
+fs = require 'fs'
 
 # http://wiki.nginx.org/HttpUploadProgressModule#report_uploads
 #
@@ -18,25 +19,36 @@ Upload = require './upload'
 # new Object({ 'state' : 'uploading', 'received' : <size_received>, 'size' : <total_size>})    }
 
 class UploadHandler
-	constructor: ->
+	constructor: (@uploadDir=null)->
 		@uploads = new Uploads
+		
+	configure: (func) ->
+		func.call @
 
 	upload: (req, res) ->
-		query = url.parse(req.url, true).query;
+		query = url.parse(req.url, true).query
 		form = new formidable.IncomingForm()
-		upload = @uploads.add query['X-Progress-ID']
+		@uploads.add query['X-Progress-ID']
 		uploads = @uploads
 		form.parse req, (err, fields, files) ->
 			uploads.remove query['X-Progress-ID']
 			res.writeHead 200, 'Content-type': 'text/plain'
-			res.end('upload received')
+			res.end 'upload received'
+		
+		uploadDir = @uploadDir
+		form.on 'file', (field, file) ->
+			console.log uploadDir
+			if uploadDir
+				fs.rename file.path, "#{uploadDir}/#{file.name}"
+		
 		form.addListener 'progress' , (bytesReceived, bytesExpected) ->
-			upload.updateProgress bytesReceived, bytesExpected
+			uploads.get(query['X-Progress-ID']).updateProgress bytesReceived, bytesExpected
 
 	progress: (req, res) ->
-		query = url.parse(req.url, true).query;
+		query = url.parse(req.url, true).query
 		res.writeHead 200, 'Content-type': 'application/json'
-		res.end @uploads.get(query['X-Progress-ID']).toJSON()
+		upload = @uploads.get query['X-Progress-ID']
+		res.end upload.toJSON()
 
 module.exports.UploadHandler = UploadHandler
 module.exports.Upload = Upload

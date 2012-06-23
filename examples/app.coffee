@@ -3,6 +3,9 @@ fs = require 'fs'
 uploadProgress = require '../lib/node-upload-progress'
 uploadHandler = new uploadProgress.UploadHandler
 
+uploadHandler.configure ->
+	this.uploadDir = "#{__dirname}/uploads"
+
 app.createServer((req, res) ->
 	if req.url.match /\/upload\?X\-Progress\-ID=.+/
 		uploadHandler.upload req, res

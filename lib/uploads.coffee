@@ -10,7 +10,10 @@ class Uploads
 	get: (uuid) ->
 		@uploads[uuid]
 
-	remove: (uuid) ->
-		delete @uploads[uuid]
+	remove: (uuid, millisec=50000) ->
+		uploads = @uploads 
+		setTimeout ->
+			delete uploads[uuid]
+		, millisec
 
 module.exports = Uploads

@@ -10,15 +10,14 @@
 			$('#form_upload').submit(function(){
 				var intervalID = setInterval(function(){
 					$.get('/progress?X-Progress-ID=1', function(data){
-						if(data.bytesReceived === data.bytesExpected){
+						if(data.bytesReceived === data.bytesExpected && data.bytesExpected > 0){
 							clearInterval(intervalID);
 						}
 						$('#upload_progress').text(data.percent);
 					}).error(function(){clearInterval(intervalID);});
-				}, 1000);
+				}, 250);
 				return true;
 			});
-			
 		});
 	</script>
 </head>

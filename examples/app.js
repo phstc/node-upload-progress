@@ -9,6 +9,10 @@
 
   uploadHandler = new uploadProgress.UploadHandler;
 
+  uploadHandler.configure(function() {
+    return this.uploadDir = "" + __dirname + "/uploads";
+  });
+
   app.createServer(function(req, res) {
     if (req.url.match(/\/upload\?X\-Progress\-ID=.+/)) {
       return uploadHandler.upload(req, res);

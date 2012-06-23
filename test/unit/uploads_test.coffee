@@ -19,7 +19,10 @@ describe 'Uploads', ->
 		it 'should return nil if the upload does not exist', ->
 			should.not.exist $.uploads.get(1)
 	describe 'remove', ->
-		it 'should remove an upload', ->
+		it 'should remove an upload', (done) ->
 			$.uploads.add 1, $.upload
-			$.uploads.remove 1
-			should.not.exist $.uploads.get(1)
+			$.uploads.remove 1, 10
+			setTimeout -> 
+				should.not.exist $.uploads.get(1)
+				done()
+			, 10

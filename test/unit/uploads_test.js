@@ -31,10 +31,13 @@
       });
     });
     return describe('remove', function() {
-      return it('should remove an upload', function() {
+      return it('should remove an upload', function(done) {
         $.uploads.add(1, $.upload);
-        $.uploads.remove(1);
-        return should.not.exist($.uploads.get(1));
+        $.uploads.remove(1, 10);
+        return setTimeout(function() {
+          should.not.exist($.uploads.get(1));
+          return done();
+        }, 10);
       });
     });
   });
