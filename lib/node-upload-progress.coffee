@@ -1,3 +1,6 @@
+url = require 'url'
+formidable = require 'formidable'
+
 # http://wiki.nginx.org/HttpUploadProgressModule#report_uploads
 #
 # the upload request hasn't been registered yet or is unknown:
@@ -13,12 +16,16 @@
 # new Object({ 'state' : 'uploading', 'received' : <size_received>, 'size' : <total_size>})    }
 
 class Upload
-
     isDone: ->
         @bytesReceived == @bytesExpected
 
     isUploading: ->
         @bytesReceived < @bytesExpected
+
+    toJSON: ->
+        JSON.stringify
+            bytesReceived: @bytesReceived
+            bytesExpected: @bytesExpected
 
     updateProgress: (bytesReceived, bytesExpected) ->
         @bytesReceived = bytesReceived
@@ -28,7 +35,7 @@ class Uploads
     constructor: ->
         @uploads = []
 
-    add: (uuid, upload) ->
+    add: (uuid, upload=(new Upload)) ->
         @uploads[uuid] = upload
 
     get: (uuid) ->
@@ -37,5 +44,27 @@ class Uploads
     remove: (uuid) ->
         delete @uploads[uuid]
 
+class UploadHandler
+	constructor: ->
+		@uploads = new Uploads
+
+	upload: (req, res) ->
+		query = url.parse(req.url, true).query;
+		form = new formidable.IncomingForm()
+		upload = @uploads.add query['X-Progress-ID']
+		uploads = @uploads
+		form.parse req, (err, fields, files) ->
+			uploads.remove query['X-Progress-ID']
+			res.writeHead 200, 'Content-type': 'text/plain'
+			res.end('upload received')
+		form.addListener 'progress' , (bytesReceived, bytesExpected) ->
+			upload.updateProgress bytesReceived, bytesExpected
+
+	progress: (req, res) ->
+		query = url.parse(req.url, true).query;
+		res.writeHead 200, 'Content-type': 'application/json'
+		res.end @uploads.get(query['X-Progress-ID']).toJSON()
+
+module.exports.UploadHandler = UploadHandler
 module.exports.Upload = Upload
 module.exports.Uploads = Uploads

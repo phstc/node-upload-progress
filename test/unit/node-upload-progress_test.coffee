@@ -13,6 +13,10 @@ describe 'Upload', ->
         it 'should is not done if received < expected', ->
             $.upload.updateProgress 1, 10
             $.upload.isDone().should.be.false
+        it 'should return JSON', ->
+            $.upload.updateProgress 1, 10
+            $.upload.toJSON().should.equal '{"bytesReceived":1,"bytesExpected":10}'
+
 
 describe 'Uploads', ->
     describe 'add/get/delete', ->
@@ -20,7 +24,9 @@ describe 'Uploads', ->
         beforeEach ->
             $.uploads = new uploadProgress.Uploads
             $.upload = new uploadProgress.Upload
-
+        it 'should create without upload', ->
+            upload = $.uploads.add 1
+            should.exist upload
         it 'should add and get a new upload', ->
             $.uploads.add 1, $.upload
             $.uploads.get(1).should.equal $.upload

@@ -16,9 +16,13 @@
         $.upload.updateProgress(10, 10);
         return $.upload.isDone().should.be["true"];
       });
-      return it('should is not done if received < expected', function() {
+      it('should is not done if received < expected', function() {
         $.upload.updateProgress(1, 10);
         return $.upload.isDone().should.be["false"];
+      });
+      return it('should return JSON', function() {
+        $.upload.updateProgress(1, 10);
+        return $.upload.toJSON().should.equal('{"bytesReceived":1,"bytesExpected":10}');
       });
     });
   });
@@ -30,6 +34,11 @@
       beforeEach(function() {
         $.uploads = new uploadProgress.Uploads;
         return $.upload = new uploadProgress.Upload;
+      });
+      it('should create without upload', function() {
+        var upload;
+        upload = $.uploads.add(1);
+        return should.exist(upload);
       });
       it('should add and get a new upload', function() {
         $.uploads.add(1, $.upload);

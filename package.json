@@ -5,7 +5,9 @@
   "keywords": ["upload", "progress"],
   "repository": "git://github.com/phstc/node-upload-progress.git",
   "author": "Pablo Cantero <pablo@pablocantero.com>",
-  "dependencies": {},
+  "dependencies": {
+  	"formidable": "1.0.9"
+	},
   "devDependencies": {
 		  "mocha": "1.0.1"
     , "should": "0.6.0"
