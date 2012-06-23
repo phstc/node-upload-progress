@@ -24,4 +24,18 @@ class Upload
         @bytesReceived = bytesReceived
         @bytesExpected = bytesExpected
 
+class Uploads
+    constructor: ->
+        @uploads = []
+
+    add: (uuid, upload) ->
+        @uploads[uuid] = upload
+
+    get: (uuid) ->
+        @uploads[uuid]
+
+    remove: (uuid) ->
+        delete @uploads[uuid]
+
 module.exports.Upload = Upload
+module.exports.Uploads = Uploads
