@@ -16,7 +16,7 @@
 						$('#upload_percent').text(data.percent);
 						$('#upload_status').text(data.status);
 						$('#upload_filename').text(data.fileName);
-					}).error(function(){clearInterval(intervalID);});
+					}).error(function(){clearInterval(intervalID)});
 				}, 250);
 				return true;
 			});

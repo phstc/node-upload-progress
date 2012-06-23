@@ -18,5 +18,5 @@ app.createServer((req, res) ->
 			res.end()
 ).listen(8080)
 
-console.log('Server running at http://localhost:8080/');
+console.log 'Server running at http://localhost:8080/'
 	
