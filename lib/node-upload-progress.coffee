@@ -19,7 +19,7 @@ fs = require 'fs'
 # new Object({ 'state' : 'uploading', 'received' : <size_received>, 'size' : <total_size>})    }
 
 class UploadHandler
-	constructor: (@uploadDir=null)->
+	constructor: (@uploadDir=null, @onEnd=null) ->
 		@uploads = new Uploads
 		
 	configure: (func) ->
@@ -32,6 +32,10 @@ class UploadHandler
 			
 	formOnProgress: (upload, bytesReceived, bytesExpected) ->
 		upload.updateProgress bytesReceived, bytesExpected
+	
+	_onEnd: (req, res) ->
+		res.writeHead 200, 'Content-type': 'text/plain'
+		res.end 'upload received'
 
 	upload: (req, res) ->
 		query = url.parse(req.url, true).query
@@ -41,8 +45,10 @@ class UploadHandler
 		
 		form.parse req, (err, fields, files) =>
 			@uploads.remove query['X-Progress-ID']
-			res.writeHead 200, 'Content-type': 'text/plain'
-			res.end 'upload received'
+			if @onEnd
+				@onEnd req, res
+			else
+				@_onEnd req, res
 		
 		form.on 'file', (field, file) =>
 			@formOnFile @uploads.get(query['X-Progress-ID']), field, file
