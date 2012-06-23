@@ -37,6 +37,8 @@ class UploadHandler
 		
 		uploadDir = @uploadDir
 		form.on 'file', (field, file) ->
+			upload = uploads.get(query['X-Progress-ID'])
+			upload.fileName = file.name
 			if uploadDir
 				fs.rename file.path, "#{uploadDir}/#{file.name}"
 		

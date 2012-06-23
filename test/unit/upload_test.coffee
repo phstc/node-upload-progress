@@ -17,7 +17,7 @@ describe 'Upload', ->
 
 		it 'should return JSON', ->
 			$.upload.updateProgress 1, 10
-			$.upload.toJSON().should.equal '{"bytesReceived":1,"bytesExpected":10,"percent":10,"status":"uploading"}'
+			$.upload.toJSON().should.equal '{"bytesReceived":1,"bytesExpected":10,"percent":10,"status":"uploading","fileName":""}'
 
 	describe 'percent', ->
 		it 'should return 100%', ->
@@ -33,11 +33,15 @@ describe 'Upload', ->
 			$.upload.percent().should.equal 0
 			
 	describe 'status', ->
-		it 'should be done if percent 100', ->
+		it 'should be done if percent 100 and fileName is present', ->
 			$.upload.updateProgress 10, 10
+			$.upload.fileName = 'hello.txt'
 			$.upload.status().should.equal 'done'
 			
 		it 'should be uploading if percent < 100', ->
 			$.upload.updateProgress 5, 10
 			$.upload.status().should.equal 'uploading'
-
+			
+		it 'should be starting if is not uploading or done', ->
+			$.upload.updateProgress 10, 10
+			$.upload.status().should.equal 'starting'

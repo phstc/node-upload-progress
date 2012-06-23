@@ -1,5 +1,5 @@
 class Upload
-	constructor: (@bytesReceived=0, @bytesExpected=0) ->
+	constructor: (@fileName='', @bytesReceived=0, @bytesExpected=0) ->
 
 	isDone: ->
 		@bytesReceived == @bytesExpected
@@ -13,10 +13,12 @@ class Upload
 			bytesExpected: @bytesExpected
 			percent: @percent()
 			status: @status()
+			fileName: @fileName
 
 	status: ->
-		return 'done' if @isDone()
+		return 'done' if @isDone() and @fileName
 		return 'uploading' if @isUploading()
+		'starting'
 
 	percent: ->
 		return 0 if @bytesExpected == 0

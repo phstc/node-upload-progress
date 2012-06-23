@@ -10,11 +10,12 @@
 			$('#form_upload').submit(function(){
 				var intervalID = setInterval(function(){
 					$.get('/progress?X-Progress-ID=1', function(data){
-						if(data.bytesReceived === data.bytesExpected && data.bytesExpected > 0){
+						if(data.status === 'done'){
 							clearInterval(intervalID);
 						}
 						$('#upload_percent').text(data.percent);
 						$('#upload_status').text(data.status);
+						$('#upload_filename').text(data.fileName);
 					}).error(function(){clearInterval(intervalID);});
 				}, 250);
 				return true;
@@ -29,7 +30,8 @@
 			<label>File</label><br/>
 			<input type="file" name="upload" id="upload"><br>
 			<span id="upload_percent"></span><br/>
-			<span id="upload_status"></span>
+			<span id="upload_status"></span><br/>
+			<span id="upload_filename"></span>
 		</p>
 		<p>
 			<input type="submit" value="Upload">
