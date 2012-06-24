@@ -11,6 +11,12 @@ compile:
 compile-examples:
 	coffee -c $(COFFEE_EXAMPLE_FILES)
 
+examples-progress:
+	supervisor examples/progress/app.js
+
+examples-simple:
+	supervidor examples/simple/app.js
+
 test-unit: 
 	./node_modules/.bin/mocha $(TESTS) --reporter list --compilers coffee:coffee-script 
 
