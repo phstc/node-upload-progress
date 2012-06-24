@@ -40,7 +40,7 @@ describe 'Upload', ->
 	describe 'status', ->
 		it 'should be done if percent 100 and fileName is present', ->
 			$.upload.updateProgress 10, 10
-			$.upload.fileName = 'hello.txt'
+			$.upload.file = name: 'hello.txt', path: "#{__dirname}/hello.txt"
 			$.upload.status().should.equal 'done'
 			
 		it 'should be uploading if percent < 100', ->

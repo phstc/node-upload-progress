@@ -19,7 +19,7 @@ class Upload
 			filePath: @file.path if @file
 
 	status: ->
-		return 'done' if @isDone() and @fileName
+		return 'done' if @isDone() and @file
 		return 'uploading' if @isUploading()
 		'starting'
 
