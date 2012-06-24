@@ -36,7 +36,7 @@ describe 'app', ->
 			$.server = app.createServer (req, res) ->
 				uploadHandler.upload req, res
 			$.server.listen(8080)
-
+		
 		after ->
 			$.server.close()
 
@@ -50,3 +50,24 @@ describe 'app', ->
 				res.should.have.status 200
 				res.text.should.equal 'awesome upload received'
 				done()
+	
+	describe 'progress', ->
+		$ = {}
+		before ->
+			# uploadHandler = new uploadProgress.UploadHandler
+			# $.server = app.createServer (req, res) ->
+			# 	if req.url.match /\/upload\?X\-Progress\-ID=.+/
+			# 		uploadHandler.upload req, res
+			# 	else if req.url.match /\/progress\?X\-Progress\-ID=.+/
+			# 		uploadHandler.progress req, res
+			# $.server.listen(8080)
+
+		after ->
+			# $.server.close()
+
+		it 'should return starting if not found', ->
+			# req = request.get 'http://localhost:8080/progress?X-Progress-ID=1'
+			# req.end (res) ->
+			# 	res.should.have.status 404
+			# 	res.text.should.equal 'not found'
+

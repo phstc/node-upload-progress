@@ -56,8 +56,12 @@ class UploadHandler
 
 	progress: (req, res) ->
 		query = url.parse(req.url, true).query
-		res.writeHead 200, 'Content-type': 'application/json'
 		upload = @uploads.get query['X-Progress-ID']
-		res.end upload.toJSON()
+		if upload
+			res.writeHead 200, 'Content-type': 'application/json'
+			res.end upload.toJSON()
+		else
+			res.writeHead 404, 'Content-type': 'text/plain'
+			res.end 'not found'
 
 module.exports.UploadHandler = UploadHandler
