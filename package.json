@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "It's a Node.js module to handle upload and upload-progress",
   "keywords": ["upload", "progress"],
-  "repository": "git://github.com/phstc/node-upload-progress.git",
+  "repository": {"type": "git", "url": "https://github.com/phstc/node-upload-progress"},
   "author": "Pablo Cantero <pablo@pablocantero.com>",
   "dependencies": {
   	"formidable": "1.0.9"
