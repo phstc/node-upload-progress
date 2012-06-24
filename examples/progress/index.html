@@ -16,6 +16,7 @@
 						$('#upload_percent').text(data.percent);
 						$('#upload_status').text(data.status);
 						$('#upload_filename').text(data.fileName);
+						$('#upload_filepath').text(data.filePath);
 					}).error(function(){clearInterval(intervalID)});
 				}, 250);
 				return true;
@@ -31,7 +32,8 @@
 			<input type="file" name="upload" id="upload"><br>
 			<span id="upload_percent"></span><br/>
 			<span id="upload_status"></span><br/>
-			<span id="upload_filename"></span>
+			<span id="upload_filename"></span><br/>
+			<span id="upload_filepath"></span>
 		</p>
 		<p>
 			<input type="submit" value="Upload">

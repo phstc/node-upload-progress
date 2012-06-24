@@ -26,10 +26,11 @@ class UploadHandler
 		func.call @
 		
 	formOnFile: (upload, field, file) ->
-		upload.fileName = file.name
+		upload.file = file
 		if @uploadDir
 			fs.rename file.path, "#{@uploadDir}/#{file.name}"
-			
+			file.path = "#{@uploadDir}/#{file.name}"
+	
 	formOnProgress: (upload, bytesReceived, bytesExpected) ->
 		upload.updateProgress bytesReceived, bytesExpected
 	

@@ -17,7 +17,12 @@ describe 'Upload', ->
 
 		it 'should return JSON', ->
 			$.upload.updateProgress 1, 10
-			$.upload.toJSON().should.equal '{"bytesReceived":1,"bytesExpected":10,"percent":10,"status":"uploading","fileName":""}'
+			$.upload.file = name: 'hello.txt', path: "#{__dirname}/hello.txt"
+			$.upload.toJSON().should.equal '{"bytesReceived":1,"bytesExpected":10,"percent":10,"status":"uploading","fileName":"hello.txt","filePath":"' + __dirname + '/hello.txt"}'
+			
+		it 'should return JSON without file', ->
+			$.upload.updateProgress 1, 10
+			$.upload.toJSON().should.equal '{"bytesReceived":1,"bytesExpected":10,"percent":10,"status":"uploading"}'
 
 	describe 'percent', ->
 		it 'should return 100%', ->
