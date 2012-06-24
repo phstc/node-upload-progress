@@ -46,10 +46,7 @@ class UploadHandler
 		
 		form.parse req, (err, fields, files) =>
 			@uploads.remove query['X-Progress-ID']
-			if @onEnd
-				@onEnd req, res
-			else
-				@_onEnd req, res
+			(@onEnd || @_onEnd)(req, res)
 		
 		form.on 'file', (field, file) =>
 			@formOnFile @uploads.get(query['X-Progress-ID']), field, file
