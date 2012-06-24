@@ -63,5 +63,3 @@ class UploadHandler
 		res.end upload.toJSON()
 
 module.exports.UploadHandler = UploadHandler
-module.exports.Upload = Upload
-module.exports.Uploads = Uploads

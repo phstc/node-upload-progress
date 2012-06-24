@@ -24,6 +24,7 @@ describe 'app', ->
 				res.should.have.status 200
 				res.text.should.equal 'upload received'
 				done()
+	
 	describe 'simple upload with onEnd', ->
 		$ = {}
 		before ->
