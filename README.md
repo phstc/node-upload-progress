@@ -98,11 +98,9 @@ If you want to use an upload progress similar to [Nginx Upload Progress Module](
     			}, 250);
     			return true;
     		});
-    		
     		function updateViewUploadStatus(data){
     			# ...
     		}
-    		
     		// http://stackoverflow.com/a/105074/464685
     		function guidGenerator() {
     			# ...
@@ -125,7 +123,9 @@ If you want to use an upload progress similar to [Nginx Upload Progress Module](
     <iframe id="iframe_upload" name="iframe_upload"></iframe>
     # ...
 
-###The progress status
+See a full example at [examples/progress](https://github.com/phstc/node-upload-progress/tree/master/examples/progress).
+
+###The possible status
 
 The upload request hasn't been registered yet or is unknown:
 
@@ -138,8 +138,6 @@ The upload request has ended:
 The upload request is in progress:
 
     {"bytesReceived":N,"bytesExpected":N,"percent":N,"status":"uploading"}
-
-See a full example at [examples/progress](https://github.com/phstc/node-upload-progress/tree/master/examples/progress).
 
 ##Running it
 
