@@ -1,7 +1,6 @@
 It's a Node.js module to handle upload and upload-progress.
 
-[![Build Status](https://secure.travis-ci.org/[phstc]/[node-upload-progress].png)](http://travis-ci.org/[phstc]/[node-upload-progress])
-
+[![Build Status](https://secure.travis-ci.org/phstc/node-upload-progress.png)](http://travis-ci.org/phstc/node-upload-progress)
 
 ##Instal
 
