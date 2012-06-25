@@ -133,7 +133,12 @@ The upload request hasn't been registered yet or is unknown:
 
 The upload request has ended:
 
-    {"bytesReceived":N,"bytesExpected":N,"percent":100,"status":"done","fileName":"filename.txt","filePath":"uploadDir/filename.txt"}
+    {"bytesReceived":N,
+     "bytesExpected":N,
+     "percent":100,
+     "status":"done",
+     "fileName":"filename.txt",
+     "filePath":"uploadDir/filename.txt"}
 
 The upload request is in progress:
 
