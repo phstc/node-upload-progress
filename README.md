@@ -105,11 +105,7 @@ If you want to use an upload progress similar to [Nginx Upload Progress Module](
     		
     		// http://stackoverflow.com/a/105074/464685
     		function guidGenerator() {
-    			return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-    		}
-    		
-    		function S4() {
-    			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    			# ...
     		}
     	});
     </script>
