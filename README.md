@@ -1,5 +1,8 @@
 It's a Node.js module to handle upload and upload-progress.
 
+[![Build Status](https://secure.travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[phstc]/[node-upload-progress])
+
+
 ##Instal
 
     $ npm install node-upload-progress
