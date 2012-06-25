@@ -13,6 +13,7 @@
     , "should": "0.6.0"
     , "coffee-script": "1.2.0"
 		, "superagent": "0.5.0"
+		, "supervisor": "0.3.5"
 	},
   "main": "./index.js",
   "scripts": {},
