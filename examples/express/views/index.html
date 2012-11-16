@@ -1,0 +1,62 @@
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Test Upload</title>
+    <meta name="author" content="Pablo Cantero <pablo@pablocantero.com>">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!-- Date: 2012-06-12 -->
+    <script>
+      $(function(){
+        var uploadIntervalID;
+        $('#form_upload').submit(function(){
+          // Preventing multiples clicks on upload
+          clearInterval(uploadIntervalID);
+          var xProgressID = guidGenerator();
+          $(this).attr('action', '/upload?X-Progress-ID=' + xProgressID);
+          uploadIntervalID = setInterval(function(){
+            $.get('/progress?X-Progress-ID=' + xProgressID, function(data){
+              if(data.status === 'done'){
+                clearInterval(uploadIntervalID);
+              }
+              updateUploadStatus(data);
+            }).error(function(){clearInterval(uploadIntervalID)});
+          }, 250);
+          return true;
+        });
+
+        function updateUploadStatus(data){
+          $('#upload_percent').text(data.percent);
+          $('#upload_status').text(data.status);
+          $('#upload_filename').text(data.fileName);
+          $('#upload_filepath').text(data.filePath);
+        }
+
+        // http://stackoverflow.com/a/105074/464685
+        function guidGenerator() {
+          return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+        }
+
+        function S4() {
+          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Super Upload</h1>
+    <form action="/upload?X-Progress-ID=1" enctype="multipart/form-data" method="post" id="form_upload" target="iframe_upload">
+      <p>
+      <label>File</label><br/>
+      <input type="file" name="upload" id="upload"><br>
+      <span id="upload_percent"></span><br/>
+      <span id="upload_status"></span><br/>
+      <span id="upload_filename"></span><br/>
+      <span id="upload_filepath"></span>
+      </p>
+      <p>
+      <input type="submit" value="Upload">
+      </p>
+    </form>
+    <iframe id="iframe_upload" name="iframe_upload"></iframe>
+  </body>
+</html>
