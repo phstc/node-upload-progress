@@ -19,49 +19,49 @@ fs = require 'fs'
 # new Object({ 'state' : 'uploading', 'received' : <size_received>, 'size' : <total_size>})    }
 
 class UploadHandler
-	constructor: (@uploadDir=null, @onEnd=null) ->
-		@uploads = new Uploads
-		
-	configure: (func) ->
-		func.call @
-		
-	formOnFile: (upload, field, file) ->
-		upload.file = file
-		if @uploadDir
-			fs.rename file.path, "#{@uploadDir}/#{file.name}"
-			file.path = "#{@uploadDir}/#{file.name}"
-	
-	formOnProgress: (upload, bytesReceived, bytesExpected) ->
-		upload.updateProgress bytesReceived, bytesExpected
-	
-	_onEnd: (req, res) ->
-		res.writeHead 200, 'Content-type': 'text/plain'
-		res.end 'upload received'
+  constructor: (@uploadDir=null, @onEnd=null) ->
+    @uploads = new Uploads
 
-	upload: (req, res) ->
-		query = url.parse(req.url, true).query
-		form = new formidable.IncomingForm()
-		
-		@uploads.add query['X-Progress-ID']
-		
-		form.parse req, (err, fields, files) =>
-			@uploads.remove query['X-Progress-ID']
-			(@onEnd || @_onEnd)(req, res)
-		
-		form.on 'file', (field, file) =>
-			@formOnFile @uploads.get(query['X-Progress-ID']), field, file
-		
-		form.addListener 'progress' , (bytesReceived, bytesExpected) =>
-			@formOnProgress @uploads.get(query['X-Progress-ID']), bytesReceived, bytesExpected
+  configure: (func) ->
+    func.call @
 
-	progress: (req, res) ->
-		query = url.parse(req.url, true).query
-		upload = @uploads.get query['X-Progress-ID']
-		if upload
-			res.writeHead 200, 'Content-type': 'application/json'
-			res.end upload.toJSON()
-		else
-			res.writeHead 404, 'Content-type': 'text/plain'
-			res.end 'not found'
+  formOnFile: (upload, field, file) ->
+    upload.file = file
+    if @uploadDir
+      fs.rename file.path, "#{@uploadDir}/#{file.name}"
+      file.path = "#{@uploadDir}/#{file.name}"
+
+  formOnProgress: (upload, bytesReceived, bytesExpected) ->
+    upload.updateProgress bytesReceived, bytesExpected
+
+  _onEnd: (req, res) ->
+    res.writeHead 200, 'Content-type': 'text/plain'
+    res.end 'upload received'
+
+  upload: (req, res) ->
+    query = url.parse(req.url, true).query
+    form = new formidable.IncomingForm()
+
+    @uploads.add query['X-Progress-ID']
+
+    form.parse req, (err, fields, files) =>
+      @uploads.remove query['X-Progress-ID']
+      (@onEnd || @_onEnd)(req, res)
+
+    form.on 'file', (field, file) =>
+      @formOnFile @uploads.get(query['X-Progress-ID']), field, file
+
+    form.addListener 'progress' , (bytesReceived, bytesExpected) =>
+      @formOnProgress @uploads.get(query['X-Progress-ID']), bytesReceived, bytesExpected
+
+  progress: (req, res) ->
+    query = url.parse(req.url, true).query
+    upload = @uploads.get query['X-Progress-ID']
+    if upload
+      res.writeHead 200, 'Content-type': 'application/json'
+      res.end upload.toJSON()
+    else
+      res.writeHead 404, 'Content-type': 'text/plain'
+      res.end 'not found'
 
 module.exports.UploadHandler = UploadHandler

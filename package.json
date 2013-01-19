@@ -6,18 +6,18 @@
   "repository": {"type": "git", "url": "https://github.com/phstc/node-upload-progress"},
   "author": "Pablo Cantero <pablo@pablocantero.com>",
   "dependencies": {
-  	"formidable": "1.0.9"
-	},
+    "formidable": "1.0.9"
+  },
   "devDependencies": {
-		  "mocha": "1.0.1"
+      "mocha": "1.0.1"
     , "should": "0.6.0"
     , "coffee-script": "1.2.0"
-		, "superagent": "0.5.0"
-		, "supervisor": "0.3.5"
-	},
+    , "superagent": "0.5.0"
+    , "supervisor": "0.3.5"
+  },
   "main": "./index.js",
   "scripts": {
-  	"test": "make test"
+    "test": "make test"
   },
   "engines": {"node": ">= 0.6.0"}
 }

@@ -1,34 +1,34 @@
 class Upload
-	@file = null
-	
-	constructor: (@bytesReceived=0, @bytesExpected=0) ->
+  @file = null
 
-	isDone: ->
-		@bytesReceived == @bytesExpected
+  constructor: (@bytesReceived=0, @bytesExpected=0) ->
 
-	isUploading: ->
-		@bytesReceived < @bytesExpected
+  isDone: ->
+    @bytesReceived == @bytesExpected
 
-	toJSON: ->
-		JSON.stringify
-			bytesReceived: @bytesReceived
-			bytesExpected: @bytesExpected
-			percent: @percent()
-			status: @status()
-			fileName: @file.name if @file
-			filePath: @file.path if @file
+  isUploading: ->
+    @bytesReceived < @bytesExpected
 
-	status: ->
-		return 'done' if @isDone() and @file
-		return 'uploading' if @isUploading()
-		'starting'
+  toJSON: ->
+    JSON.stringify
+      bytesReceived: @bytesReceived
+      bytesExpected: @bytesExpected
+      percent: @percent()
+      status: @status()
+      fileName: @file.name if @file
+      filePath: @file.path if @file
 
-	percent: ->
-		return 0 if @bytesExpected == 0
-		parseInt (@bytesReceived * 100) / @bytesExpected, 10
+  status: ->
+    return 'done' if @isDone() and @file
+    return 'uploading' if @isUploading()
+    'starting'
 
-	updateProgress: (bytesReceived, bytesExpected) ->
-		@bytesReceived = bytesReceived
-		@bytesExpected = bytesExpected
+  percent: ->
+    return 0 if @bytesExpected == 0
+    parseInt (@bytesReceived * 100) / @bytesExpected, 10
+
+  updateProgress: (bytesReceived, bytesExpected) ->
+    @bytesReceived = bytesReceived
+    @bytesExpected = bytesExpected
 
 module.exports = Upload

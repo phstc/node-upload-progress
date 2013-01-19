@@ -18,7 +18,7 @@ progress:
 simple:
 	supervisor examples/simple/app.js
 
-test-unit: 
-	./node_modules/.bin/mocha $(TESTS) --reporter list --compilers coffee:coffee-script 
+test-unit:
+	./node_modules/.bin/mocha $(TESTS) --reporter list --compilers coffee:coffee-script
 
 .PHONY: test-unit test compile progress simple

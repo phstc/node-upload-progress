@@ -14,7 +14,7 @@ or
       "node-upload-progress": "latest"
     }
     # ...
-    
+
     $ npm install
 
 ##Usage
@@ -23,7 +23,7 @@ or
 
     var app = require('http');
     var uploadProgress = require('node-upload-progress');
-    
+
     uploadHandler = new uploadProgress.UploadHandler;
 
 The ```uploadHandler.uploadDir``` is the path where the files will be saved. Without this configuration the files will be saved in a path based on ```process.env.TMP```.
@@ -31,7 +31,7 @@ The ```uploadHandler.uploadDir``` is the path where the files will be saved. Wit
     uploadHandler.configure(function() {
       this.uploadDir = __dirname + '/uploads';
     });
-    
+
     app.createServer(function(req, res) {
       if (req.url === '/upload') {
         uploadHandler.upload(req, res);
@@ -49,12 +49,12 @@ Configuring the ```uploadHandler.onEnd = customOnEndHandler```, you can write yo
       this.uploadDir = "" + __dirname + "/uploads";
       this.onEnd = customOnEndHandler;
     });
-    
-    function customOnEndHandler(req, res){      
+
+    function customOnEndHandler(req, res){
       res.writeHead 200, {'Content-Type': 'text/plain'}
       res.end('Upload received');
     }
-    
+
     app.createServer(function(req, res) {
       if (req.url === '/upload') {
         uploadHandler.upload(req, res);
@@ -152,7 +152,7 @@ The upload request is in progress:
 
     $ make simple
 
-Then 
+Then
 
     open http://localhost:8080
 
@@ -160,7 +160,7 @@ Then
 
     $ make progress
 
-Then 
+Then
 
     open http://localhost:8080
 
